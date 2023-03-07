@@ -83,7 +83,11 @@ public class Bank {
    * Change interest for all Deposit accounts in this bank
    * @param newValue new value for interest
    */
+<<<<<<< HEAD
   public void setInterestForDeposit(InterestForDeposit newValue) throws IllegalArgumentException {
+=======
+  public void setInterestForDeposit(InterestForDeposit newValue) {
+>>>>>>> 2153359 (add: all classes)
     if (newValue == null) {
       throw new IllegalArgumentException("InterestForDeposit cant be null");
     }
@@ -212,7 +216,11 @@ public class Bank {
    * Create new Debit account for concrete client
    * @param client the client for which the account is being created
    */
+<<<<<<< HEAD
   public void addDebit(Client client) throws IllegalArgumentException{
+=======
+  public void addDebit(Client client){
+>>>>>>> 2153359 (add: all classes)
     if (client == null){
       throw new IllegalArgumentException("client cant be null");
     }
@@ -237,7 +245,11 @@ public class Bank {
    * @param client the client for which the account is being created
    * @param clothingDate date when account will be closed
    */
+<<<<<<< HEAD
   public void addDeposit(Client client, LocalDate clothingDate) throws IllegalArgumentException{
+=======
+  public void addDeposit(Client client, LocalDate clothingDate){
+>>>>>>> 2153359 (add: all classes)
     if (client == null){
       throw new IllegalArgumentException("Client cant be null");
     }
@@ -252,7 +264,11 @@ public class Bank {
    * Create new Credit account for concrete client
    * @param client the client for which the account is being created
    */
+<<<<<<< HEAD
   public void addCredit(Client client) throws IllegalArgumentException{
+=======
+  public void addCredit(Client client){
+>>>>>>> 2153359 (add: all classes)
     if (client == null){
       throw new IllegalArgumentException("client cant be null");
     }
