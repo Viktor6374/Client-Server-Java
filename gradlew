@@ -1,5 +1,6 @@
 #!/bin/sh
 
+git update-index --chmod=+x path/to/gradlew
 #
 # Copyright © 2015-2021 the original authors.
 #
@@ -238,5 +239,3 @@ eval "set -- $(
     )" '"$@"'
 
 exec "$JAVACMD" "$@"
-
-git update-index --chmod=+x path/to/gradlew
