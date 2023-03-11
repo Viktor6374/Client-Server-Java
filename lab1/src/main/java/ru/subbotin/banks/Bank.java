@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class Bank {
 
-  public Bank(String name_) {
+  public Bank(String name_) throws IllegalArgumentException{
     if (name_ == null || name_ == "") {
       throw new IllegalArgumentException("Name cant be empty or null");
     }
@@ -83,7 +83,7 @@ public class Bank {
    * Change interest for all Deposit accounts in this bank
    * @param newValue new value for interest
    */
-  public void setInterestForDeposit(InterestForDeposit newValue) {
+  public void setInterestForDeposit(InterestForDeposit newValue) throws IllegalArgumentException {
     if (newValue == null) {
       throw new IllegalArgumentException("InterestForDeposit cant be null");
     }
@@ -212,7 +212,7 @@ public class Bank {
    * Create new Debit account for concrete client
    * @param client the client for which the account is being created
    */
-  public void addDebit(Client client){
+  public void addDebit(Client client) throws IllegalArgumentException{
     if (client == null){
       throw new IllegalArgumentException("client cant be null");
     }
@@ -237,7 +237,7 @@ public class Bank {
    * @param client the client for which the account is being created
    * @param clothingDate date when account will be closed
    */
-  public void addDeposit(Client client, LocalDate clothingDate){
+  public void addDeposit(Client client, LocalDate clothingDate) throws IllegalArgumentException{
     if (client == null){
       throw new IllegalArgumentException("Client cant be null");
     }
@@ -252,7 +252,7 @@ public class Bank {
    * Create new Credit account for concrete client
    * @param client the client for which the account is being created
    */
-  public void addCredit(Client client){
+  public void addCredit(Client client) throws IllegalArgumentException{
     if (client == null){
       throw new IllegalArgumentException("client cant be null");
     }

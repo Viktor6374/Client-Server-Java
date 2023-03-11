@@ -1,9 +1,12 @@
 package ru.subbotin;
 
+import ru.subbotin.banks.CentralBank;
+import ru.subbotin.banksConsole.CentralBankConsole;
+
 public class Main {
 
 
   public static void main(String[] args) {
-    System.out.println("Hello world!");
+    CentralBankConsole.centralBank(CentralBank.getCentralBank());
   }
 }
