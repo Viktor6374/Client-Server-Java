@@ -1,2 +1,3 @@
 rootProject.name = 'Labs'
+include 'lab1'
 
