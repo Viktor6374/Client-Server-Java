@@ -11,4 +11,6 @@ include 'lab2:Dao'
 findProject(':lab2:Dao')?.name = 'Dao'
 include 'lab2:Dao'
 findProject(':lab2:Dao')?.name = 'Dao'
+include 'lab2:Service'
+findProject(':lab2:Service')?.name = 'Service'
 

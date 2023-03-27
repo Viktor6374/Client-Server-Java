@@ -1,4 +1,4 @@
-package ru.subbotin;
+package ru.subbotin.models;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -13,11 +13,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import ru.subbotin.models.Cat;
 
 @Entity
 @Table(name = "Owners")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Owner {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
