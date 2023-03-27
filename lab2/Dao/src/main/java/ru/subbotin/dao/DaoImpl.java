@@ -1,6 +1,7 @@
 package ru.subbotin.dao;
 
 import java.util.ArrayList;
+import lombok.NonNull;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,7 +10,7 @@ import ru.subbotin.models.Owner;
 import ru.subbotin.utils.HibernateSessionFactoryUtil;
 
 public class DaoImpl implements Dao {
-  public void saveOwner(Owner owner) {
+  public void saveOwner(@NonNull Owner owner) {
     Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
     Transaction transaction = session.beginTransaction();
     session.save(owner);
@@ -17,7 +18,7 @@ public class DaoImpl implements Dao {
     session.close();
   }
 
-  public void updateOwner(Owner owner) {
+  public void updateOwner(@NonNull Owner owner) {
     Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
     Transaction transaction = session.beginTransaction();
     session.update(owner);
@@ -25,7 +26,7 @@ public class DaoImpl implements Dao {
     session.close();
   }
 
-  public void deleteOwner(Owner owner) {
+  public void deleteOwner(@NonNull Owner owner) {
     Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
     Transaction transaction = session.beginTransaction();
     session.delete(owner);
