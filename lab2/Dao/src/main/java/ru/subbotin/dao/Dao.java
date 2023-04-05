@@ -11,4 +11,5 @@ public interface Dao {
   public Owner findOwnerByID(int id);
   public Cat findCatByID(int id);
   public ArrayList<Owner> getAllOwners();
+  public void addFriendship(Cat friend1, Cat friend2);
 }

@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'ru.subbotin'
@@ -14,7 +15,11 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    implementation project (':lab2:Dao')
+    implementation project (':Dao')
+
+    compileOnly 'org.hibernate:hibernate-core:6.1.7.Final'
+    annotationProcessor 'org.hibernate:hibernate-core:6.1.7.Final'
+    testImplementation 'org.mockito:mockito-core:5.1.1'
 }
 
 test {

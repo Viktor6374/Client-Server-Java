@@ -45,4 +45,10 @@ public class DaoImpl implements Dao {
   public ArrayList<Owner> getAllOwners(){
     return  (ArrayList<Owner>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From Owners").list();
   }
+
+  @Override
+  public void addFriendship(Cat friend1, Cat friend2) {
+    friend1.addFriend(friend2);
+    friend2.addFriend(friend1);
+  }
 }

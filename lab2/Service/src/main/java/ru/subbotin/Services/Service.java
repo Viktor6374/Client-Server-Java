@@ -31,4 +31,8 @@ public class Service {
   public ArrayList<Owner> getAllOwners(){
     return dao.getAllOwners();
   }
+
+  public void addFriendship(Cat friend1, Cat friend2){
+    dao.addFriendship(friend1, friend2);
+  }
 }

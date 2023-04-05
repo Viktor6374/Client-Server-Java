@@ -1,17 +1,10 @@
 package ru.subbotin.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -19,9 +12,13 @@ import ru.subbotin.models.Cat;
 
 @Entity
 @Table(name = "Owners")
-@AllArgsConstructor
 @NoArgsConstructor
 public class Owner {
+  public Owner(String name_, LocalDate dateOfBirth_){
+    name = name_;
+    dateOfBirth = dateOfBirth_;
+    cats = new ArrayList<>();
+  }
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;

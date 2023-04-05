@@ -1,18 +1,26 @@
 package ru.subbotin.models;
 
+import jakarta.persistence.Entity;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import ru.subbotin.Color;
 
 @Entity
 @Table(name = "Cats")
-@AllArgsConstructor
 @NoArgsConstructor
 public class Cat {
+  public Cat(String name_, String breed_, Color color_, LocalDate dateOfBirth_, Owner owner_){
+    name = name_;
+    breed = breed_;
+    color = color_;
+    dateOfBirth = dateOfBirth_;
+    owner = owner_;
+    friendsOfCat = new ArrayList<>();
+  }
   @Getter
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +47,9 @@ public class Cat {
   @ManyToMany
   @JoinTable(name = "Friendships", joinColumns = @JoinColumn(name = "First cat"), inverseJoinColumns = @JoinColumn(name = "Second cat"))
   private List<Cat> friendsOfCat;
+
+  public void addFriend(Cat friend){
+    friendsOfCat.add(friend);
+  }
 }
 
