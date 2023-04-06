@@ -11,18 +11,18 @@ repositories {
 
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.22'
-        annotationProcessor 'org.projectlombok:lombok:1.18.22'
-        testImplementation 'org.projectlombok:lombok:1.18.22'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-        compileOnly 'org.hibernate:hibernate-core:6.1.7.Final'
-        runtimeOnly 'org.hibernate:hibernate-core:6.1.7.Final'
-        annotationProcessor 'org.hibernate:hibernate-core:6.1.7.Final'
+    compileOnly 'org.hibernate:hibernate-core:6.1.7.Final'
+    runtimeOnly 'org.hibernate:hibernate-core:6.1.7.Final'
+    annotationProcessor 'org.hibernate:hibernate-core:6.1.7.Final'
 
-        runtimeOnly 'org.postgresql:postgresql:42.5.4'
+    runtimeOnly 'org.postgresql:postgresql:42.5.4'
 
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 test {
