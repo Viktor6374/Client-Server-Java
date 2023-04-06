@@ -19,6 +19,7 @@ public class Cat {
     color = color_;
     dateOfBirth = dateOfBirth_;
     owner = owner_;
+    owner_.addCat(this);
     friendsOfCat = new ArrayList<>();
   }
   @Getter
