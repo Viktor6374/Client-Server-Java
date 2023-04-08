@@ -2,6 +2,8 @@ package ru.subbotin.Services;
 
 import java.util.ArrayList;
 import lombok.NonNull;
+import ru.subbotin.DTO.CatDTO;
+import ru.subbotin.DTO.OwnerDTO;
 import ru.subbotin.dao.Dao;
 import ru.subbotin.models.Cat;
 import ru.subbotin.models.Owner;
@@ -22,14 +24,19 @@ public class Service {
   public void deleteOwner(Owner owner){
     dao.deleteOwner(owner);
   }
-  public Owner findOwnerByID(int id){
-    return dao.findOwnerByID(id);
+  public OwnerDTO findOwnerByID(int id){
+    return new OwnerDTO(dao.findOwnerByID(id));
   }
-  public Cat findCatByID(int id){
-    return dao.findCatByID(id);
+  public CatDTO findCatByID(int id){
+    return new CatDTO(dao.findCatByID(id));
   }
-  public ArrayList<Owner> getAllOwners(){
-    return dao.getAllOwners();
+  public ArrayList<OwnerDTO> getAllOwners(){
+    ArrayList<OwnerDTO> result = new ArrayList<>();
+    for (Owner owner: dao.getAllOwners()){
+      result.add(new OwnerDTO(owner));
+    }
+
+    return result;
   }
 
   public void addFriendship(Cat friend1, Cat friend2){
