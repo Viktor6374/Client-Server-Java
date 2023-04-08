@@ -32,8 +32,8 @@ public class TestService {
 
     when(dao.getAllOwners()).thenReturn(owners);
 
-    Assertions.assertTrue(service.getAllOwners().contains(bob));
-    Assertions.assertTrue(service.getAllOwners().contains(bill));
+    Assertions.assertSame("Bob", service.getAllOwners().get(0).getName());
+    Assertions.assertSame("Bill", service.getAllOwners().get(1).getName());
 
     Cat jack = new Cat("Jack", "British", Color.Black, LocalDate.of(2020, 11, 12), bob);
     Cat john = new Cat("John", "British", Color.Red, LocalDate.of(2017, 5, 1), bill);
@@ -48,9 +48,9 @@ public class TestService {
 
     service.addFriendship(john, jack);
 
-    Assertions.assertTrue(bob.getCats().contains(jack));
-    Assertions.assertTrue(bill.getCats().contains(john));
-    Assertions.assertTrue(jack.getFriendsOfCat().contains(john));
-    Assertions.assertTrue(john.getFriendsOfCat().contains(jack));
+    Assertions.assertSame("Jack", bob.getCats().get(0).getName());
+    Assertions.assertSame("John", bill.getCats().get(0).getName());
+    Assertions.assertSame("John", jack.getFriendsOfCat().get(0).getName());
+    Assertions.assertSame("Jack", john.getFriendsOfCat().get(0).getName());
   }
 }
