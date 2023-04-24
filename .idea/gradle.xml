@@ -10,6 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/lab3" />
+            <option value="$PROJECT_DIR$/lab3.2" />
+            <option value="$PROJECT_DIR$/lab3.2/Dao" />
+            <option value="$PROJECT_DIR$/lab3.2/Service" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -19,6 +22,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/lab3" />
+            <option value="$PROJECT_DIR$/lab3/dao" />
+            <option value="$PROJECT_DIR$/lab3/service" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -28,6 +33,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/lab3/dao" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/lab3/service" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/lab3/service" />
           </set>
         </option>
       </GradleProjectSettings>
