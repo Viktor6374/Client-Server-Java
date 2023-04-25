@@ -19,8 +19,16 @@ public class Owner {
         dateOfBirth = dateOfBirth_;
         cats = new ArrayList<>();
     }
+
+    public Owner(Integer id_, String name_, LocalDate dateOfBirth_){
+        id = id_;
+        name = name_;
+        dateOfBirth = dateOfBirth_;
+        cats = new ArrayList<>();
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Integer id;
     @Getter
     @Column(name = "Name")

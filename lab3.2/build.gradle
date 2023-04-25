@@ -1,29 +1,19 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.11'
-    id 'io.spring.dependency-management' version "1.0.15.RELEASE"
 }
 
-subprojects {
+group 'ru.subbotin'
+version '1.0-SNAPSHOT'
 
-    group = 'ru.subbotin'
-    version = '0.0.1-SNAPSHOT'
+repositories {
+    mavenCentral()
+}
 
-    apply plugin: 'java'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'org.springframework.boot'
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
 
-    repositories {
-        mavenCentral()
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
-        }
-    }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
+test {
+    useJUnitPlatform()
 }

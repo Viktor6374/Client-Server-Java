@@ -20,6 +20,18 @@ public class Cat {
         owner_.addCat(this);
         friendsOfCat = new ArrayList<>();
     }
+
+    public Cat(Integer id_, String name_, String breed_, Color color_, LocalDate dateOfBirth_, Owner owner_){
+        name = name_;
+        breed = breed_;
+        color = color_;
+        dateOfBirth = dateOfBirth_;
+        owner = owner_;
+        owner_.addCat(this);
+        friendsOfCat = new ArrayList<>();
+        id = id_;
+    }
+
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
