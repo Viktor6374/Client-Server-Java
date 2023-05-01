@@ -1,5 +1,6 @@
 package ru.subbotin.entity;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,19 +12,17 @@ import lombok.NonNull;
 import ru.subbotin.entity.Cat;
 
 @Entity
-@Table(name = "Owners")
+@Table(name = "owners")
 @NoArgsConstructor
 public class Owner {
-    public Owner(String name_, LocalDate dateOfBirth_){
+    public Owner(String name_){
         name = name_;
-        dateOfBirth = dateOfBirth_;
         cats = new ArrayList<>();
     }
 
-    public Owner(Integer id_, String name_, LocalDate dateOfBirth_){
+    public Owner(Integer id_, String name_){
         id = id_;
         name = name_;
-        dateOfBirth = dateOfBirth_;
         cats = new ArrayList<>();
     }
     @Id
@@ -33,9 +32,6 @@ public class Owner {
     @Getter
     @Column(name = "Name")
     private String name;
-    @Getter
-    @Column(name = "Date of Birth")
-    private LocalDate dateOfBirth;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cat> cats;
 

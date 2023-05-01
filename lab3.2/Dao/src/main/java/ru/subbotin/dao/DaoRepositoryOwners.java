@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface DaoRepositoryOwners extends JpaRepository<Owner, Integer> {
-    public List<Owner> findOwnersByDateOfBirth(LocalDate dateOfBirth);
+    public List<Owner> findOwnersByName(String name);
 }

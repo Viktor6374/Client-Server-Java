@@ -12,6 +12,18 @@ import ru.subbotin.Color;
 @NoArgsConstructor
 public class Cat {
     public Cat(String name_, String breed_, Color color_, LocalDate dateOfBirth_, Owner owner_){
+
+        name = name_;
+        breed = breed_;
+        color = color_;
+        dateOfBirth = dateOfBirth_;
+        owner = owner_;
+        owner_.addCat(this);
+        friendsOfCat = new ArrayList<>();
+    }
+
+    public Cat(int id_, String name_, String breed_, Color color_, LocalDate dateOfBirth_, Owner owner_){
+        id = id_;
         name = name_;
         breed = breed_;
         color = color_;

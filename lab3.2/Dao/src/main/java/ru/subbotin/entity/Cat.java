@@ -1,62 +1,60 @@
 package ru.subbotin.entity;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+
+import lombok.Setter;
 import ru.subbotin.Color;
 @Entity
-@Table(name = "Cats")
+@Table(name = "cats")
 @NoArgsConstructor
+@Getter
 public class Cat {
-    public Cat(String name_, String breed_, Color color_, LocalDate dateOfBirth_, Owner owner_){
+    public Cat(String name_, String breed_, Color color_, Owner owner_){
         name = name_;
         breed = breed_;
         color = color_;
-        dateOfBirth = dateOfBirth_;
         owner = owner_;
         owner_.addCat(this);
         friendsOfCat = new ArrayList<>();
     }
 
-    public Cat(Integer id_, String name_, String breed_, Color color_, LocalDate dateOfBirth_, Owner owner_){
+    public Cat(Integer id_, String name_, String breed_, Color color_, Owner owner_){
         name = name_;
         breed = breed_;
         color = color_;
-        dateOfBirth = dateOfBirth_;
         owner = owner_;
         owner_.addCat(this);
         friendsOfCat = new ArrayList<>();
         id = id_;
     }
 
-    @Getter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Getter
+
     @Column(name = "Name")
     private String name;
-    @Getter
+
     @Column(name = "Breed")
     private String breed;
-    @Getter
+
     @Column(name = "Color")
     @Enumerated(EnumType.STRING)
     private Color color;
-    @Getter
-    @Column(name = "Date of Birth")
-    private LocalDate dateOfBirth;
-    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Owner")
     private Owner owner;
 
-    @Getter
-    @ManyToMany
-    @JoinTable(name = "Friendships", joinColumns = @JoinColumn(name = "First cat"), inverseJoinColumns = @JoinColumn(name = "Second cat"))
+    @Setter
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "friendships", joinColumns = @JoinColumn(name = "first"), inverseJoinColumns = @JoinColumn(name = "second"))
     private List<Cat> friendsOfCat;
 
     public void addFriend(Cat friend){
