@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface DaoRepositoryCats extends JpaRepository<Cat, Integer> {
     public List<Cat> findCatByBreed(String breed);
-
 }
