@@ -1,4 +1,5 @@
 rootProject.name = 'Labs'
+<<<<<<< HEAD
 include 'lab3'
 include 'lab3.2'
 include 'lab3.2:Dao'
@@ -7,4 +8,6 @@ include 'lab3.2:Service'
 findProject(':lab3.2:Service')?.name = 'Service'
 include 'lab3.2:Http'
 findProject(':lab3.2:Http')?.name = 'Http'
+=======
+>>>>>>> main
 
