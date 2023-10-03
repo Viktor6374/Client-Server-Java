@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DaoRepositoryOwners extends JpaRepository<Owner, Integer> {
+public interface DaoRepositoryOwners extends JpaRepository<Owner, Long> {
     public List<Owner> findOwnersByName(String name);
 }

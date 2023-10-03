@@ -16,22 +16,26 @@ public class CatServiceImpl implements CatService{
     private DaoRepositoryCats daoCat;
 
     @Override
-    public void saveCat(CatDTO catDTO){
+    public Long saveCat(CatDTO catDTO){
         Optional<Cat> old_cat = daoCat.findById(catDTO.getId());
-
-        Cat cat = new Cat(catDTO);
+        Cat cat;
         if (old_cat.isPresent()){
-            cat.setFriendsOfCat(new HashSet<>(old_cat.get().getFriendsOfCat()));
+            cat = old_cat.get();
+            cat.setName(cat.getName());
+            cat.setBreed(cat.getBreed());
+            cat.setColor(cat.getColor());
+            cat.setOwnerId(catDTO.getOwnerID());
+        } else {
+            cat = new Cat(catDTO);
         }
 
         daoCat.save(cat);
+        return cat.getId();
     }
 
     @Override
-    public void deleteCats(List<Long> catID){
-        for (Long id : catID){
-            daoCat.deleteById(id);
-        }
+    public void deleteCat(Long catID){
+        daoCat.deleteById(catID);
     }
 
     @Override
@@ -79,6 +83,18 @@ public class CatServiceImpl implements CatService{
 
         return result;
     }
+    @Override
+    public List<CatDTO> findCatByOwnerId(Long ownerId){
+        List<Cat> resultCat = daoCat.findCatByOwnerId(ownerId);
+        List<CatDTO> result = new ArrayList<>();
+
+        for (Cat cat: resultCat){
+            result.add(new CatDTO(cat));
+        }
+
+        return result;
+    }
+    @Override
     public boolean catExist(Long catId){
         return daoCat.existsById(catId);
     }

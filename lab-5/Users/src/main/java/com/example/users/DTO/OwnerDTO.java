@@ -21,7 +21,7 @@ public class OwnerDTO {
     public OwnerDTO(Owner owner){
         id = owner.getId();
         name = owner.getName();
-        cats = new ArrayList<>(owner.getCats());
+        cats = new ArrayList<>(owner.getCatsId());
     }
 
     private Long id;

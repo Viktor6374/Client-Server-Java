@@ -11,8 +11,7 @@ import lombok.Setter;
 public class RoleDTO {
     private Long id;
     private String name;
-    public RoleDTO(Long id, String name){
-        this.id = id;
+    public RoleDTO(String name){
         this.name = name;
     }
     public RoleDTO(Role role){

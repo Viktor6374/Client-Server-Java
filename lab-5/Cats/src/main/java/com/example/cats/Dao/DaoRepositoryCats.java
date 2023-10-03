@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface DaoRepositoryCats extends JpaRepository<Cat, Long> {
     public List<Cat> findCatByBreed(String breed);
+    public List<Cat> findCatByOwnerId(Long ownerId);
 }

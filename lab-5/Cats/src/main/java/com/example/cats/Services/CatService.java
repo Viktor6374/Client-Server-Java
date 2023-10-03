@@ -9,11 +9,12 @@ import java.util.List;
 
 @Service
 public interface CatService {
-    public void saveCat(CatDTO catDTO);
-    public void deleteCats(List<Long> catID);
+    public Long saveCat(CatDTO catDTO);
+    public void deleteCat(Long catID);
     public CatDTO findCatByID(Long id);
     public ArrayList<CatDTO> getAllCats();
     public void addFriendship(Long idFriend1, Long idFriend2);
     public List<CatDTO> findCatByBreed(String breed);
     public boolean catExist(Long catId);
+    public List<CatDTO> findCatByOwnerId(Long ownerId);
 }

@@ -17,9 +17,9 @@ import com.example.cats.Color;
 @Table(name = "cats")
 @NoArgsConstructor
 @Getter
+@Setter
 public class Cat {
     public Cat(CatDTO dto){
-        id = dto.getId();
         name = dto.getName();
         breed = dto.getBreed();
         color = Color.valueOf(dto.getColor());
@@ -32,15 +32,6 @@ public class Cat {
         color = color_;
         ownerId = ownerId_;
         friendsOfCat = new HashSet<>();
-    }
-
-    public Cat(Long id_, String name_, String breed_, Color color_, Long ownerId_){
-        name = name_;
-        breed = breed_;
-        color = color_;
-        ownerId = ownerId_;
-        friendsOfCat = new HashSet<>();
-        id = id_;
     }
 
 
