@@ -17,7 +17,7 @@ public class Cat {
         this.breed = breed;
         this.color = color;
         this.ownerID = ownerID;
-        friendsOfCat = new ArrayList<Long>(friendsOfCat);
+        this.friendsOfCat = new ArrayList<Long>(friendsOfCat);
     }
     private Long id;
     private String name;

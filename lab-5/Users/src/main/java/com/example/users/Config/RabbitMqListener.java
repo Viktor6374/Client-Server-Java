@@ -1,4 +1,4 @@
-package com.example.users;
+package com.example.users.Config;
 
 import com.example.users.DTO.OwnerDTO;
 import com.example.users.DTO.RoleDTO;
@@ -24,97 +24,97 @@ public class RabbitMqListener {
     UserServiceImpl service;
 
     @RabbitListener(queues = "query-owners")
-    public String worker1(String message) {
+    public String worker1(String message) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode reply = mapper.createObjectNode();
 
         try {
             ObjectNode jsonMessage = (ObjectNode) new ObjectMapper().readTree(message);
-            if (Objects.equals(jsonMessage.get("command").asText(), "changeOwner")) {
+            if (Objects.equals(jsonMessage.get("command").textValue(), "changeOwner")) {
                 OwnerDTO ownerDTO = createOwnerDTO(jsonMessage);
                 reply.put("result", "successful");
-                reply.put("id", service.changeOwner(ownerDTO));
-                return reply.asText();
+                reply.put("message", service.changeOwner(ownerDTO));
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "findOwnerByID")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "findOwnerByID")) {
                 OwnerDTO ownerDTO = service.findOwnerByID(jsonMessage.get("id").asLong());
                 if (ownerDTO == null) {
                     reply.put("result", "error");
                     reply.put("message", "owner not found");
-                    return reply.asText();
+                    return mapper.writeValueAsString(reply);
                 } else {
                     reply.put("result", "successful");
-                    reply.put("cat", createJsonNodeOwner(ownerDTO).asText());
-                    return reply.asText();
+                    reply.put("message", createJsonNodeOwner(ownerDTO));
+                    return mapper.writeValueAsString(reply);
                 }
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "findOwnersByName")) {
-                List<OwnerDTO> result = service.findOwnersByName(jsonMessage.get("name").asText());
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "findOwnersByName")) {
+                List<OwnerDTO> result = service.findOwnersByName(jsonMessage.get("name").textValue());
                 reply.put("result", "successful");
-                reply.put("message", createArrayOwners(result).asText());
-                return reply.asText();
+                reply.put("message", createArrayOwners(result));
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "loadUserByUsername")) {
-                UserDTO result = service.findUserByUsername(jsonMessage.get("username").asText());
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "loadUserByUsername")) {
+                UserDTO result = service.findUserByUsername(jsonMessage.get("username").textValue());
                 reply.put("result", "successful");
-                reply.put("message", createJsonNodeUser(result).asText());
-                return reply.asText();
+                reply.put("message", createJsonNodeUser(result));
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "saveUser")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "saveUser")) {
                 UserDTO userDTO = createUserDTO(jsonMessage);
-                service.saveUser(userDTO);
                 reply.put("result", "successful");
                 reply.put("message", service.saveUser(userDTO));
-                return reply.asText();
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "deleteUser")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "deleteUser")) {
                 service.deleteUser(jsonMessage.get("ownerId").asLong());
                 reply.put("result", "successful");
-                return reply.asText();
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "deleteCat")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "deleteCat")) {
                 service.deleteCat(jsonMessage.get("catId").asLong(), jsonMessage.get("ownerId").asLong());
                 reply.put("result", "successful");
-                return reply.asText();
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "addCat")) {
+                return mapper.writeValueAsString(reply);
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "addCat")) {
                 service.addCat(jsonMessage.get("catId").asLong(), jsonMessage.get("ownerId").asLong());
                 reply.put("result", "successful");
-                return reply.asText();
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "getAllOwners")) {
+                return mapper.writeValueAsString(reply);
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "getAllOwners")) {
                 List<OwnerDTO> result = service.getAllOwners();
                 reply.put("result", "successful");
-                reply.put("message", createArrayOwners(result).asText());
-                return reply.asText();
+                reply.put("message", createArrayOwners(result));
+                return mapper.writeValueAsString(reply);
             } else {
                 throw new UnsupportedOperationException("Unsupported command");
             }
         } catch (Exception e) {
             reply.put("result", "error");
             reply.put("message", e.getMessage());
-            return reply.asText();
+            return mapper.writeValueAsString(reply);
         }
     }
 
-    private OwnerDTO createOwnerDTO(ObjectNode message) {
-        Long id = Long.parseLong(message.get("id").asText());
-        String name = message.get("name").asText();
+    private OwnerDTO createOwnerDTO(ObjectNode message) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Long id = message.get("id").asLong();
+        String name = message.get("name").textValue();
         List<Long> cats = new ArrayList<>();
         for (JsonNode node : message.get("cats")) {
-            cats.add(Long.parseLong(node.asText()));
+            cats.add(Long.parseLong(node.textValue()));
         }
 
         return new OwnerDTO(id, name, cats);
     }
 
     private UserDTO createUserDTO(ObjectNode message) throws JsonProcessingException {
-        Long id = Long.parseLong(message.get("id").asText());
-        String username = message.get("username").asText();
-        String password = message.get("password").asText();
-        RoleDTO roleDTO = new RoleDTO(message.get("username").asText());
         ObjectMapper mapper = new ObjectMapper();
+        Long id = message.get("id").asLong();
+        String username = message.get("username").textValue();
+        String password = message.get("password").textValue();
+        RoleDTO roleDTO = new RoleDTO(message.get("role").textValue());
         OwnerDTO ownerDTO = createOwnerDTO((ObjectNode) message.get("owner"));
 
-        return new UserDTO(id, password, password, ownerDTO, roleDTO);
+        return new UserDTO(id, password, username, ownerDTO, roleDTO);
     }
 
     private JsonNode createJsonNodeOwner(OwnerDTO ownerDTO) {
@@ -142,13 +142,10 @@ public class RabbitMqListener {
 
     private JsonNode createArrayOwners(List<OwnerDTO> owners) {
         ObjectMapper mapper = new ObjectMapper();
-        ObjectNode result = mapper.createObjectNode();
         ArrayNode arrayNode = mapper.createArrayNode();
         for (OwnerDTO ownerDTO : owners) {
             arrayNode.add(createJsonNodeOwner(ownerDTO));
         }
-        result.put("result", "successful");
-        result.put("owners", arrayNode);
-        return result;
+        return arrayNode;
     }
 }

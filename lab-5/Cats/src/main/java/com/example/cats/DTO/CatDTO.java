@@ -22,6 +22,14 @@ public class CatDTO {
         this.ownerID = ownerID;
         friendsOfCat = new ArrayList<Long>(friendsOfCat);
     }
+    public CatDTO(Long id, String name, String breed, String color, Long ownerID){
+        this.id = id;
+        this.name = name;
+        this.breed = breed;
+        this.color = color;
+        this.ownerID = ownerID;
+        friendsOfCat = new ArrayList<Long>();
+    }
     public CatDTO(Cat cat){
         id = cat.getId();
         name = cat.getName();

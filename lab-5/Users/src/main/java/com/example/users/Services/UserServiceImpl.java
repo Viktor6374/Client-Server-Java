@@ -106,8 +106,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(Long ownerId) {
+        User1 user = daoUser.findUserByUsername(ownerId.toString());
+        daoUser.deleteById(user.getId());
         daoOwner.deleteById(ownerId);
-        daoUser.deleteByUsername(ownerId.toString());
     }
     @Override
     public void addCat(Long catId, Long ownerId){

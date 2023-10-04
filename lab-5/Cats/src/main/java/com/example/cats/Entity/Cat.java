@@ -24,14 +24,14 @@ public class Cat {
         breed = dto.getBreed();
         color = Color.valueOf(dto.getColor());
         ownerId = dto.getOwnerID();
-        friendsOfCat = new HashSet<>();
+        friendsOfCat = new ArrayList<>();
     }
     public Cat(String name_, String breed_, Color color_, Long ownerId_){
         name = name_;
         breed = breed_;
         color = color_;
         ownerId = ownerId_;
-        friendsOfCat = new HashSet<>();
+        friendsOfCat = new ArrayList<>();
     }
 
 
@@ -52,9 +52,9 @@ public class Cat {
     private Long ownerId;
 
     @Setter
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     @JoinTable(name = "friendships", joinColumns = @JoinColumn(name = "first"), inverseJoinColumns = @JoinColumn(name = "second"))
-    private Set<Cat> friendsOfCat;
+    private List<Cat> friendsOfCat;
 
     public void addFriend(Cat friend){
         friendsOfCat.add(friend);

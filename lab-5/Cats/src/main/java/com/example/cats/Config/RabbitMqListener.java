@@ -1,8 +1,9 @@
-package com.example.cats;
+package com.example.cats.Config;
 
 import com.example.cats.DTO.CatDTO;
 import com.example.cats.Services.CatService;
 import com.example.cats.Services.CatServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -11,6 +12,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,73 +23,71 @@ public class RabbitMqListener {
     @Autowired
     CatServiceImpl service;
     @RabbitListener(queues = "query-cats")
-    public String listen(String message) {
+    @Transactional
+    public String listen(String message) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode reply = mapper.createObjectNode();
 
         try {
             ObjectNode jsonMessage = (ObjectNode) new ObjectMapper().readTree(message);
-            if (Objects.equals(jsonMessage.get("command").asText(), "saveCat")) {
+            if (Objects.equals(jsonMessage.get("command").textValue(), "saveCat")) {
                 CatDTO catDTO = createCatDTO(jsonMessage);
                 reply.put("result", "successful");
-                reply.put("id", service.saveCat(catDTO));
-                return reply.asText();
+                reply.put("message", service.saveCat(catDTO));
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "deleteCat")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "deleteCat")) {
                 service.deleteCat(jsonMessage.get("id").asLong());
                 reply.put("result", "successful");
-                return reply.asText();
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "findCatByID")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "findCatByID")) {
                 CatDTO catDTO = service.findCatByID(jsonMessage.get("id").asLong());
                 if (catDTO == null) {
                     reply.put("result", "error");
                     reply.put("message", "cat not found");
-                    return reply.asText();
+                    return mapper.writeValueAsString(reply);
                 } else {
                     reply.put("result", "successful");
-                    reply.put("cat", createJsonNode(catDTO).asText());
-                    return reply.asText();
+                    reply.put("message", createJsonNode(catDTO));
+                    return mapper.writeValueAsString(reply);
                 }
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "getAllCats")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "getAllCats")) {
                 List<CatDTO> result = service.getAllCats();
-                return createArrayCats(result).asText();
+                return mapper.writeValueAsString(createArrayCats(result));
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "addFriendship")) {
-                service.addFriendship(jsonMessage.get("id1").asLong(), jsonMessage.get("id1").asLong());
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "addFriendship")) {
+                service.addFriendship(jsonMessage.get("id1").asLong(), jsonMessage.get("id2").asLong());
                 reply.put("result", "successful");
-                return reply.asText();
+                return mapper.writeValueAsString(reply);
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "findCatByBreed")) {
-                List<CatDTO> result = service.findCatByBreed(jsonMessage.get("breed").asText());
-                return createArrayCats(result).asText();
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "findCatByBreed")) {
+                List<CatDTO> result = service.findCatByBreed(jsonMessage.get("breed").textValue());
+                return mapper.writeValueAsString(createArrayCats(result));
 
-            } else if (Objects.equals(jsonMessage.get("command").asText(), "findCatByBreed")) {
+            } else if (Objects.equals(jsonMessage.get("command").textValue(), "findCatByOwnerId")) {
                 List<CatDTO> result = service.findCatByOwnerId(jsonMessage.get("ownerId").asLong());
-                return createArrayCats(result).asText();
+                return mapper.writeValueAsString(createArrayCats(result));
             } else {
                 throw new UnsupportedOperationException("Unsupported command");
             }
         }catch (Exception e){
             reply.put("result", "error");
             reply.put("message", e.getMessage());
-            return reply.asText();
+            return mapper.writeValueAsString(reply);
         }
     }
 
-    private CatDTO createCatDTO(ObjectNode message){
-        Long id = Long.parseLong(message.get("id").asText());
-        String name = message.get("name").asText();
-        String color = message.get("color").asText();
-        String breed = message.get("breed").asText();
-        Long ownerId = Long.parseLong(message.get("ownerId").asText());
-        List<Long> friends = new ArrayList<>();
-        for (JsonNode node: message.get("friendsOfCat")){
-            friends.add(Long.parseLong(node.asText()));
-        }
+    private CatDTO createCatDTO(ObjectNode message) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Long id = message.get("id").asLong();
+        String name = message.get("name").textValue();
+        String color = message.get("color").textValue();
+        String breed = message.get("breed").textValue();
+        Long ownerId = message.get("ownerId").asLong();
 
-        return new CatDTO(id, name, breed, color, ownerId, friends);
+        return new CatDTO(id, name, breed, color, ownerId);
     }
 
     private JsonNode createJsonNode(CatDTO catDTO){
@@ -97,6 +97,7 @@ public class RabbitMqListener {
         result.put("name", catDTO.getName());
         result.put("breed", catDTO.getBreed());
         result.put("color", catDTO.getColor());
+        result.put("ownerId", catDTO.getOwnerID());
         ArrayNode friends = mapper.valueToTree(catDTO.getFriendsOfCat());
         result.put("friendsOfCat", friends);
 
@@ -111,7 +112,7 @@ public class RabbitMqListener {
             arrayNode.add(createJsonNode(catDTO));
         }
         result.put("result", "successful");
-        result.put("cats", arrayNode);
+        result.put("message", arrayNode);
         return result;
     }
 }

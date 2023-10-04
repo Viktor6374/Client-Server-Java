@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Owner {
-    public Owner(int id, String name, List<Cat> cats){
+    public Owner(Long id, String name, List<Cat> cats){
         this.id = id;
         this.name = name;
         this.cats = cats;
     }
 
-    private Integer id;
+    private Long id;
     private String name;
     private List<Cat> cats;
 }
